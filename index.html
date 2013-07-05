@@ -111,7 +111,7 @@
                     -84.953077,  19.826373, 
 					-74.131305, 23.276492
                 );
-				bounds.transform(new OpenLayers.Projection("EPSG:4326"), map.getProjectionObject());
+				bounds.transform(new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913"));
                 map.zoomToExtent(bounds);
 				
 				loadFeatures();

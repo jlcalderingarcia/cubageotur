@@ -33,21 +33,21 @@ function loadFeatures(){
             }),
             "select" :  new OpenLayers.Style({
                 "cursor" : 'hand',
+				"label" : '${mylabel}',
+				"labelAlign" : "cb",
+				"labelYOffset" : -23,
+				"fontWeight" : "bold",
+				"fontSize" : "10px",
                 "pointRadius" : 16
-            }),
-            "temporary" : new OpenLayers.Style({
-                "cursor" : 'hand',
-                "graphicTitle" : '${mylabel}',
-                "pointRadius" : 12
             }, {
-                "context" : {
+				"context" : {
                     "mylabel" : function(feature){
-                        if(feature.cluster)
+						if(feature.cluster)
                             return "Varios";
                         return feature.attributes.name;
                     }
                 }
-            })
+			})
         });
 
         layer.styleMap = vector_style_map;
@@ -100,6 +100,12 @@ function loadFeatures(){
                 features[i].geometry.transform(epsg4326, baseProyection);
 		layer.addFeatures(features);
 		clusteringStrategy.activate();
+		
+		var select = new OpenLayers.Control.SelectFeature(
+			layer, { "clickout" : true, "multiple" : false, "toggle" : true }
+		);
+		map.addControl(select);
+		select.activate();
 	});
 
 };
