@@ -1,8 +1,226 @@
 <html>
-<header>
-	<title>Hola</title>
-</header>
-<body>
-	Holaaaaa
-</body>
+	<head>
+		<title>Cubageotur Mobile</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+		
+		<script type="text/javascript" src="lib/jquery.js"></script>
+		<script type="text/javascript" src="lib/jquery.mobile-1.3.1.js"></script>
+		<script type="text/javascript" src="lib/OpenLayers.js?mobile"></script>
+		<link rel="stylesheet" type="text/css" href="css/jquery.mobile-extraicons.css"/>
+		<link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.3.1.min.css"/>
+		<!--link rel="stylesheet" href="css/style.mobile.css" type="text/css"-->
+		<script type="text/javascript" src="js/entities.js"></script>
+		<script type="text/javascript">
+			//Step 2 Declare a callback for jquery to call when it loads
+			$(document).ready(function() {
+				//Place to bootstrap your application
+				//alert("jquery loaded");
+				
+				init();
+				
+				$("#zoom-in-control").click(function(event){
+					map.zoomIn();
+					event.stopPropagation();
+					return false;
+				});
+				$("#zoom-home-control").click(function(event){
+					map.zoomToMaxExtent();
+					event.stopPropagation();
+					return false;
+				});
+				$("#zoom-out-control").click(function(event){
+					map.zoomOut();
+					event.stopPropagation();
+					return false;
+				});
+			});
+			
+			var map;
+            var tiled;
+            // pink tile avoidance
+            OpenLayers.IMAGE_RELOAD_ATTEMPTS = 5;
+            // make OL compute scale according to WMS spec
+            OpenLayers.DOTS_PER_INCH = 25.4 / 0.28;
+        
+            function init(){
+                // if this is just a coverage or a group of them, disable a few items,
+                // and default to jpeg format
+                format = 'image/png';
+            
+                var bounds = new OpenLayers.Bounds(
+					-90, 15,
+                    -70, 28
+                );
+                var options = {
+                    controls: [
+						new OpenLayers.Control.TouchNavigation({
+							dragPanOptions: {
+								enableKinetic: true
+							}
+						})
+					],
+                    maxExtent: bounds,
+                    maxResolution: 0.078125,
+                    projection: "EPSG:4326",
+                    units: 'degrees'
+                };
+                map = new OpenLayers.Map('map', options);
+            
+                // setup tiled layer
+                tiled = new OpenLayers.Layer.OSM("New Layer", "tiles/mapnik/${z}_${x}_${y}.png", {numZoomLevels: 19});
+				//new OpenLayers.Layer.OSM("New Layer", "proxy.php?z=${z}&x=${x}&y=${y}.png&r=mapnik", {numZoomLevels: 19});
+				/*new OpenLayers.Layer.WMS(
+                    "GoogleImagesCache - Tiled", "tiles/map-proxy.php",
+                    {
+                        width: '512',
+                        srs: 'EPSG:4326',
+                        layers: 'gmx:GoogleImagesCache',
+                        height: '332',
+                        styles: '',
+                        format: format,
+                        tiled: 'true',
+                        tilesOrigin : map.maxExtent.left + ',' + map.maxExtent.bottom
+                    },
+                    {
+                        buffer: 0,
+                        displayOutsideMaxExtent: true,
+						resolutions: [
+							0.078125, 
+							//0.0390625, 
+							0.01953125, 
+							//0.009765625, 
+							0.0048828125, 
+							//0.00244140625, 
+							0.001220703125, 
+							//0.0006103515625, 
+							0.00030517578125, 
+							//0.000152587890625, 
+							0.0000762939453125, 
+							//0.00003814697265625, 
+							0.000019073486328125, 
+							//0.0000095367431640625, 
+							//0.00000476837158203125, 
+							0.000002384185791015625]
+                    } 
+                );*/
+        
+                map.addLayers([tiled]);
+				bounds = new OpenLayers.Bounds(
+                    -84.953077,  19.826373, 
+					-74.131305, 23.276492
+                );
+				bounds.transform(new OpenLayers.Projection("EPSG:4326"), map.getProjectionObject());
+                map.zoomToExtent(bounds);
+				
+				loadFeatures();
+			}
+                
+		</script>
+		<style type="text/css">
+			#map{
+				position: absolute;
+				top: 0px;
+				bottom: 0px;
+				left: 0px;
+				right: 0px;
+			}
+			#navigation{
+				position: absolute;
+				top: 10px;
+				left: 10px;
+				z-index: 65000;
+			}
+			
+			/* My dialog desing */
+			.ui-dialog-contain {
+				width: 92.5%;
+				max-width: 500px;
+				margin: 10% auto 15px auto;
+				padding: 0;
+				position: relative;
+				top: -15px;
+			}
+		</style>
+	</head>
+	<body>
+		<!-- Page Start-->
+		<div data-role="page" id="map-page">
+			<!-- Page Header End -->
+			<!-- Page Body Start -->
+			<div data-role="content" style="padding: 0px;">
+				<div id="navigation" style="opacity: 0.6;">
+					<div data-role="controlgroup" data-mini="true" data-theme="a">
+						<a href="#" id="zoom-in-control" data-theme="a" data-role="button"><img src="css/icons/zoom-in.png" alt="Zoom In"></a>
+						<a href="#" id="zoom-home-control" data-role="button" data-theme="a"><img src="css/icons/zoom-home.png" alt="Zoom Home"></a>
+						<a href="#" id="zoom-out-control" data-role="button" data-theme="a"><img src="css/icons/zoom-out.png" alt="Zoom Out"></a>
+						<a href="#popup-login" data-rel="popup" data-position-to="window" data-transition="pop"></a>
+					</div>
+				</div>
+				<div id="map"></div>
+			</div>
+			<!-- Page Body End -->
+			<!-- Page Footer Start -->
+			<div data-role="footer" data-position="fixed" style="opacity: 0.6;">
+				<div data-role="navbar">
+					<ul>
+						<li>
+							<a href="#dialog-search" data-rel="dialog" data-transition="slidedown">
+								<img src="css/icons/search.png" alt="Search">
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<img src="css/icons/layers.png" alt="Layers">
+							</a>
+							
+						</li>
+						<li><a href="#"><img src="css/icons/settings.png" alt="Settings"></a></li>
+						<li><a href="#about-page"><img src="css/icons/about.png" alt="About" data-transition="pop"></a></li>
+					</ul>
+				</div><!-- /navbar -->
+			</div>
+			<!-- Page Footer End -->
+		</div>
+		<!-- Page End -->
+		
+		
+		<!-- Page Start-->
+		<div data-role="page" id="about-page">
+			<div data-role="header">
+				<a href="#map-page" data-role="button" data-inline="true" data-icon="back" data-theme="a" data-transition="pop">Go back</a>
+				<h1>Cubageotur</h1>
+			</div><!-- /header -->
+
+			<div data-role="content">
+				<p>A brief introduction to the cubageotur software, including developers, center, promotions, etc.</p>
+			</div><!-- /content -->
+
+			<!--div data-role="footer" data-position="fixed">
+				<h4>Page Footer</h4>
+			</div--><!-- /footer -->
+		</div>
+		<!-- Page End -->
+		
+		<!-- Dialog Search -->
+		<div data-role="dialog" id="dialog-search" data-close-btn="right">	
+			<div data-role="header" data-theme="d">
+				<h1>Search dialog</h1>
+			</div>
+			<div data-role="content">
+				<label for="search">Search:</label>
+				<input type="search" name="password" id="search" value="" placeholder="Searched text...">
+				<div data-role="collapsible" data-theme="e" data-content-theme="c" data-mini="true">
+					<h4>Advanced</h4>
+					<p>Here'll go the advanced search controls.</p>
+				</div>
+				<div style="text-align: right;">
+					<a href="#" data-role="button" data-rel="back" data-theme="b" data-inline="true" data-mini="true">Search</a>       
+					<a href="#" data-role="button" data-rel="back" data-theme="c" data-inline="true" data-mini="true">Cancel</a>    
+				</div>
+			</div>
+		</div>
+		<!-- Dialog End -->
+	</body>
 </html>

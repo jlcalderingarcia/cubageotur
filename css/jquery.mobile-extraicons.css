@@ -1,0 +1,33 @@
+.ui-icon.ui-icon-zoom-in {
+	background-image: url("icons/zoom-in.png");
+}
+.ui-icon.ui-icon-zoom-home {
+	background-image: url("icons/zoom-home.png");
+}
+.ui-icon.ui-icon-zoom-out {
+	background-image: url("icons/zoom-out.png");
+}
+.ui-icon.ui-icon-about {
+	background-image: url("icons/about.png");
+}
+
+/*@media only screen and (-webkit-min-device-pixel-ratio: 2) {
+
+	.ui-icon.ui-icon-zoom-in {
+		background-image: url("icons/zoom-in.png");
+		background-size: 18px 18px;
+	}
+	.ui-icon.ui-icon-zoom-home {
+		background-image: url("icons/zoom-home.png");
+		background-size: 18px 18px;
+	}
+	.ui-icon.ui-icon-zoom-out {
+		background-image: url("icons/zoom-out.png");
+		background-size: 18px 18px;
+	}
+	.ui-icon.ui-icon-about {
+		background-image: url("icons/about.png");
+		background-size: 18px 18px;
+	}
+	
+}*/
