@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+    <widget xmlns = "http://www.w3.org/ns/widgets"
+        xmlns:gap = "http://phonegap.com/ns/1.0"
+        id        = "cu.geocuba.geosi.mobile.melia_demo"
+        versionCode="1" 
+        version   = "0.1.0">
+
+    <!-- versionCode is optional and Android only -->
+
+    <name>Melia Mobiles App Demo</name>
+
+    <description>
+        This is a very short demo of the very basic characteristics that will fallow the product to develop.
+    </description>
+
+    <author href="https://www.geocuba.cu" email="jlcalderingarcia@gmail.com">
+        Jorge Luis Calderín García
+    </author>
+
+	<preference name="phonegap-version" value="2.9.0" />
+	<preference name="fullscreen" value="true" />
+	
+	<!-- Features to use when finished -->
+	<feature name="http://api.phonegap.com/1.0/file"/>
+	<feature name="http://api.phonegap.com/1.0/geolocation"/>
+	<feature name="http://api.phonegap.com/1.0/media"/>
+	<feature name="http://api.phonegap.com/1.0/network"/>
+	<feature name="http://api.phonegap.com/1.0/notification"/>
+	
+	<icon src="images/logos/logo-blackberry.png" width="64" height="64"/>
+	
+	<!-- External sites access -->
+	<access origin="https://www.cubageotur.cu" subdomains="true" />
+	<access origin="https://www.cubageotur.com" subdomains="true" />
+	
+	<!-- iOS specific -->
+	<preference name="webviewbounce" value="false" />
+	<icon src="images/logos/logo-57.png" gap:platform="ios" width="57" height="57" />
+	<icon src="images/logos/logo-72.png" gap:platform="ios" width="72" height="72" />
+	<icon src="images/logos/logo-57-2x.png" gap:platform="ios" width="114" height="114" />
+	<icon src="images/logos/logo-72-2x.png" gap:platform="ios" width="144" height="144" />	
+	
+	<!-- Android specific -->
+	<preference name="android-installLocation" value="preferExternal" />
+	<icon src="images/logos/logo-ldpi.png" gap:platform="android" gap:density="ldpi" />
+	<icon src="images/logos/logo-mdpi.png" gap:platform="android" gap:density="mdpi" />
+	<icon src="images/logos/logo-hdpi.png" gap:platform="android" gap:density="hdpi" />
+	<icon src="images/logos/logo-xhdpi.png" gap:platform="android" gap:density="xhdpi" />
+	
+	<!-- Blackberry specific -->
+	<icon src="images/logos/logo-blackberry.png" gap:platform="blackberry" />
+	<icon src="images/logos/logo-blackberry-hover.png" gap:platform="blackberry" gap:state="hover"/>
+	
+</widget>
