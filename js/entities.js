@@ -10,6 +10,11 @@ function loadFeatures(){
     layer = null;
     clusteringStrategy = null;
     features = null;
+	
+	//Touch Navigation
+	var touch_navigation = new OpenLayers.Control.TouchNavigation();
+	map.addControl(touch_navigation);
+	touch_navigation.activate();
 
     setStyle = function(layer){
 
@@ -91,7 +96,8 @@ function loadFeatures(){
 					"coordinates":[data[i].x,data[i].y]
 				}
 			};
-			main.features.push(f);
+			if(type == 4)
+				main.features.push(f);
 		};
 		features = geojson_format.read(main);
 		var epsg4326 = new OpenLayers.Projection("EPSG:4326");
