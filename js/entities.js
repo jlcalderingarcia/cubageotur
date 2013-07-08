@@ -39,8 +39,8 @@ function loadFeatures(){
             "select" :  new OpenLayers.Style({
                 "cursor" : 'hand',
 				"label" : '${mylabel}',
-				"labelAlign" : "cb",
-				"labelYOffset" : -23,
+				"labelAlign" : "ct",
+				"labelYOffset" : -20,
 				"fontWeight" : "bold",
 				"fontSize" : "10px",
                 "pointRadius" : 16
@@ -60,6 +60,7 @@ function loadFeatures(){
 
 
 	clusteringStrategy = new OpenLayers.Strategy.Cluster({"distance": 12, "threshold": 3});
+
 	layer = new OpenLayers.Layer.Vector(
 		"Entidades",
 		{"strategies" : [clusteringStrategy]}
@@ -96,7 +97,7 @@ function loadFeatures(){
 					"coordinates":[data[i].x,data[i].y]
 				}
 			};
-			if(type == 4)
+			if(type > 30)
 				main.features.push(f);
 		};
 		features = geojson_format.read(main);
