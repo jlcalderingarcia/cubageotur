@@ -35,6 +35,28 @@
 					event.stopPropagation();
 					return false;
 				});
+				$("#zoom-gps-control").click(function(event){
+					
+					// onSuccess Geolocation
+					//
+					function onSuccess(position) {
+						var lonlat = new OpenLayers.LonLat(position.coords.longitude,position.coords.latitude);
+						lonlat.transform(new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913"));
+						map.panTo(lonlat);
+						map.zoomTo(13);
+					}
+
+					// onError Callback receives a PositionError object
+					//
+					function onError(error) {
+						alert('code: '    + error.code    + '\n' + 'message: ' + error.message + '\n');
+					} 
+					
+					navigator.geolocation.getCurrentPosition(onSuccess, onError);
+					
+					event.stopPropagation();
+					return false;
+				});
 			});
 			
 			var map;
@@ -50,9 +72,10 @@
                 format = 'image/png';
             
                 var bounds = new OpenLayers.Bounds(
-					-90, 15,
-                    -70, 28
+                    -84.953077,  19.826373, 
+					-74.131305, 23.276492
                 );
+				bounds.transform(new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913"));
                 var options = {
                     controls: [
 						new OpenLayers.Control.TouchNavigation({
@@ -69,7 +92,7 @@
                 map = new OpenLayers.Map('map', options);
             
                 // setup tiled layer
-                tiled = new OpenLayers.Layer.OSM("New Layer", "tiles/mapnik/${z}_${x}_${y}.png", {numZoomLevels: 19});
+                tiled = new OpenLayers.Layer.OSM("New Layer", "tiles/mapnik/${z}_${x}_${y}.png", {numZoomLevels: 15});
 				//new OpenLayers.Layer.OSM("New Layer", "proxy.php?z=${z}&x=${x}&y=${y}.png&r=mapnik", {numZoomLevels: 19});
 				/*new OpenLayers.Layer.WMS(
                     "GoogleImagesCache - Tiled", "tiles/map-proxy.php",
@@ -107,11 +130,6 @@
                 );*/
         
                 map.addLayers([tiled]);
-				bounds = new OpenLayers.Bounds(
-                    -84.953077,  19.826373, 
-					-74.131305, 23.276492
-                );
-				bounds.transform(new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913"));
                 map.zoomToExtent(bounds);
 				
 				loadFeatures();
@@ -155,6 +173,7 @@
 						<a href="#" id="zoom-in-control" data-theme="a" data-role="button"><img src="css/icons/zoom-in.png" alt="Zoom In"></a>
 						<a href="#" id="zoom-home-control" data-role="button" data-theme="a"><img src="css/icons/zoom-home.png" alt="Zoom Home"></a>
 						<a href="#" id="zoom-out-control" data-role="button" data-theme="a"><img src="css/icons/zoom-out.png" alt="Zoom Out"></a>
+						<a href="#" id="zoom-gps-control" data-role="button" data-theme="a"><img src="css/icons/gps.png" alt="Zoom GPS"></a>
 						<a href="#popup-login" data-rel="popup" data-position-to="window" data-transition="pop"></a>
 					</div>
 				</div>
@@ -171,7 +190,7 @@
 							</a>
 						</li>
 						<li>
-							<a href="#">
+							<a href="#layer-select">
 								<img src="css/icons/layers.png" alt="Layers">
 							</a>
 							
@@ -182,6 +201,34 @@
 				</div><!-- /navbar -->
 			</div>
 			<!-- Page Footer End -->
+		</div>
+		<!-- Page End -->
+		
+		<!-- Page Start-->
+		<div data-role="page" id="layer-select">
+			<div data-role="header">
+				<a href="#map-page" data-role="button" data-inline="true" data-icon="back" data-theme="a" data-transition="pop">Go back</a>
+				<h1>Cubageotur</h1>
+			</div><!-- /header -->
+
+			<div data-role="content">
+				<ul data-role="listview" data-filter="true" data-filter-placeholder="Search elements..." data-inset="true">
+					<li data-role="list-divider">Melia</li>
+					<li><a href="#" data-rel="back" element-id="32"><img src="images/icons/32.png" alt="" class="ui-li-icon ui-corner-none">Meliá</a></li>
+					<li><a href="#" data-rel="back" element-id="31"><img src="images/icons/31.png" alt="" class="ui-li-icon ui-corner-none">Paradisus</a></li>
+					<li><a href="#" data-rel="back" element-id="34"><img src="images/icons/34.png" alt="" class="ui-li-icon ui-corner-none">Tryp</a></li>
+					<li><a href="#" data-rel="back" element-id="33"><img src="images/icons/33.png" alt="" class="ui-li-icon ui-corner-none">Sol</a></li>
+					<li data-role="list-divider">Where to stay?</li>
+					<li><a href="#" data-rel="back" element-id="4"><img src="images/icons/4.png" alt="" class="ui-li-icon ui-corner-none">Lodging</a></li>
+					<li data-role="list-divider">Where to eat?</li>
+					<li><a href="#" data-rel="back" element-id="26"><img src="images/icons/26.png" alt="" class="ui-li-icon ui-corner-none">Restaurant</a></li>
+					<li><a href="#" data-rel="back" element-id="8"><img src="images/icons/8.png" alt="" class="ui-li-icon ui-corner-none">Cafeteria</a></li>
+					<li data-role="list-divider">What to do?</li>
+					<li><a href="#" data-rel="back" element-id="11"><img src="images/icons/11.png" alt="" class="ui-li-icon ui-corner-none">Night Center</a></li>
+					<li><a href="#" data-rel="back" element-id="20"><img src="images/icons/20.png" alt="" class="ui-li-icon ui-corner-none">Marina</a></li>
+					<li><a href="#" data-rel="back" element-id="15"><img src="images/icons/15.png" alt="" class="ui-li-icon ui-corner-none">Gallery</a></li>
+				</ul>
+			</div><!-- /content -->
 		</div>
 		<!-- Page End -->
 		
