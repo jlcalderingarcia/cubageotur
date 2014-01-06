@@ -1,0 +1,77 @@
+/* NUEVO DISEÑO DEL POPUP */
+.my-popup, .my-popup table{
+    font-family: Tahoma;
+    font-size: 12px;
+    width: 328px;
+}
+.popup-info{
+    width: 328px;
+    height: 160px;
+    overflow: hidden;
+}
+.popup-info > hr {
+
+}
+.popup-info .title{
+    vertical-align: bottom;
+    height: 25px;
+}
+.popup-info .title .title-text{
+    /*display: inline-block;*/
+    vertical-align: top;
+    width: 270px;
+    height: 25px;
+    overflow: hidden;
+    margin-left: 25px;
+}
+.popup-info .title .title-text marquee{
+    marquee-speed: slow;
+    marquee-style: slide;
+}
+.popup-info .options{
+    width: 100%;
+    text-align: right;
+    height: 15px;
+    content: 'Holaaaa';
+}
+.popup-info .options > a{
+    text-decoration: underline;
+    color: #d35111;
+    cursor: auto;
+}
+.popup-info .options > a:hover{
+    color: #8a3206;
+}
+.popup-info .title .identification{
+    font-size: 16px;
+}
+.popup-info .title .identification > img{
+    float: left;
+}
+.popup-info .places{
+    height: 125px;
+    overflow-y: auto;
+}
+.popup-info .content{
+    height: 100px;
+}
+.popup-info .content .image{
+    width: 80px;
+    display: inline-block;
+    float: left;
+}
+.popup-info .content .data-content{
+    margin-left: 80px;
+    height: 100%;
+    /*width: 218px;*/
+    padding-left: 2px;
+    overflow: auto;
+}
+.popup-info .content .data-content div{
+    text-overflow: clip;
+    word-wrap: break-word;
+    word-break: keep-all;
+}
+.olFramedCloudPopupContent{
+    overflow: visible !important;
+}
